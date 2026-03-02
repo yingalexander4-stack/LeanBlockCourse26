@@ -1,6 +1,8 @@
 import Mathlib.Algebra.BigOperators.Fin
 import Mathlib.Data.Nat.Prime.Basic
 
+set_option linter.style.emptyLine false
+
 /-
 # An example from number theory
 =====================

@@ -1,6 +1,8 @@
 import Mathlib.Topology.Basic
 import Mathlib.Tactic.Basic
 
+set_option linter.style.emptyLine false
+
 /-
 # An example from topology
 =====================
