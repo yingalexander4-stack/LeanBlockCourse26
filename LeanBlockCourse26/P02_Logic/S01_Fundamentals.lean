@@ -277,9 +277,17 @@ example (P Q R S : Prop) (h₁ : P → Q) (h₂ : Q → R) (h₃ : R → S) : P 
   sorry
 
 -- Exercise 2.3
--- Show that if `P` implies that `Q` implies `R`
--- and that `P` implies `Q`, then `P` implies `R`.
+-- Show that if the proposition that `P` implies `Q`
+-- implies the proposition `R` and if also `P` implies `Q`,
+-- then `P` implies `R`. Note that `P → Q → R` is `(P → Q) → R`.
 example (P Q R : Prop) (h₁ : P → Q → R) (h₂ : P → Q) : P → R := by
+  sorry
+
+-- Exercise 2.3 (alt)
+-- Show that if the proposition `P` implies the proposition that
+-- `Q` implies `R` and if we alos have a proof of `P`, then 
+-- the propositon `Q → R` holds, i.e., we have a proof of it.
+example (P Q R : Prop) (h₁ : P → (Q → R)) (p : P) : Q → R := by
   sorry
 
 -- Exercise 2.4 (Master students)
