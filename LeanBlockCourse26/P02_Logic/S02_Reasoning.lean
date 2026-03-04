@@ -136,6 +136,8 @@ Find a path from `A` to `I` using different reasoning styles. Have at least
 one purely forward arguing path and one purely backward arguing path.
 -/
 
+-- Exercise 1.1
+-- Find a purely forward arguing path from `A` to `I`.
 example (A B C D E F G H I : Prop)
     (f : A → B) (g : C → B) (h : A → D) (i : B → E) (j : C → F)
     (k : E → D) (l : E → F) (m : G → D) (n : H → E) (p : F → I)
@@ -162,6 +164,8 @@ example (A B C D E F G H I : Prop)
     (q : H → G) (r : H → I) (a : A) : I :=
   p <| l <| i <| f a  -- Can just collapse everything into term mode
 
+-- Exercise 1.2
+-- Find a purely backward arguing path from `A` to `I`.
 example (A B C D E F G H I : Prop)
     (f : A → B) (g : C → B) (h : A → D) (i : B → E) (j : C → F)
     (k : E → D) (l : E → F) (m : G → D) (n : H → E) (p : F → I)
@@ -172,7 +176,8 @@ example (A B C D E F G H I : Prop)
   apply f
   exact a
 
--- mixed reasoning: argue backwards from `I` to `E` and then forwards from `A`
+-- Exercise 1.3
+-- Find a path that mixes forward and backward reasoning.
 example (A B C D E F G H I : Prop)
     (f : A → B) (g : C → B) (h : A → D) (i : B → E) (j : C → F)
     (k : E → D) (l : E → F) (m : G → D) (n : H → E) (p : F → I)
