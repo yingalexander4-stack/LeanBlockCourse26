@@ -1,0 +1,363 @@
+{
+  "version": 1,
+  "mathlib_version": "2026-03-04",
+  "groups": [
+    {
+      "title": "Closing Tactics",
+      "description": "Directly close the current goal.",
+      "tactics": [
+        {
+          "name": "rfl",
+          "effect": "Close a goal `a = a` (definitional equality).",
+          "example": "example : 42 = 42 := by rfl",
+          "mathlib_count_raw": 13691,
+          "mathlib_count_rounded": 14000
+        },
+        {
+          "name": "exact",
+          "effect": "Close the goal with the given term.",
+          "example": "example (h : P) : P := by exact h",
+          "mathlib_count_raw": 45245,
+          "mathlib_count_rounded": 45000
+        },
+        {
+          "name": "exact?",
+          "effect": "Search the library for a closing term and suggest it.",
+          "example": "",
+          "mathlib_count_raw": 0,
+          "mathlib_count_rounded": 0
+        },
+        {
+          "name": "assumption",
+          "effect": "Close the goal with a matching hypothesis from the context.",
+          "example": "example (h : P) : P := by assumption",
+          "mathlib_count_raw": 200,
+          "mathlib_count_rounded": 200
+        },
+        {
+          "name": "decide",
+          "effect": "Prove decidable propositions by computation.",
+          "example": "example : 2 + 3 = 5 := by decide",
+          "mathlib_count_raw": 86,
+          "mathlib_count_rounded": 100
+        },
+        {
+          "name": "trivial",
+          "effect": "Try `rfl`, `assumption`, `contradiction`, and similar.",
+          "example": "example : True := by trivial",
+          "mathlib_count_raw": 85,
+          "mathlib_count_rounded": 100
+        },
+        {
+          "name": "contradiction",
+          "effect": "Close the goal from conflicting hypotheses.",
+          "example": "example (h : False) : P := by contradiction",
+          "mathlib_count_raw": 178,
+          "mathlib_count_rounded": 200
+        }
+      ]
+    },
+    {
+      "title": "Rewriting",
+      "description": "Transform the goal or hypotheses using equalities and rules.",
+      "tactics": [
+        {
+          "name": "rw",
+          "effect": "Rewrite using an equality or iff; `rw [← h]` for reverse; `rw [...] at k` targets a hypothesis.",
+          "example": "example (h : a = b) : a + 1 = b + 1 := by rw [h]",
+          "mathlib_count_raw": 69844,
+          "mathlib_count_rounded": 70000
+        },
+        {
+          "name": "nth_rw",
+          "effect": "Rewrite only the n-th occurrence.",
+          "example": "example (h : a = b) : a + a = a + b := by nth_rw 2 [h]",
+          "mathlib_count_raw": 472,
+          "mathlib_count_rounded": 450
+        },
+        {
+          "name": "simp",
+          "effect": "Repeatedly apply rewrite rules from a configurable set; `simp only [...]` for explicit control.",
+          "example": "example : 0 + n = n := by simp",
+          "mathlib_count_raw": 45132,
+          "mathlib_count_rounded": 45000
+        },
+        {
+          "name": "push_neg",
+          "effect": "Push negation inward through connectives and quantifiers.",
+          "example": "example (h : ¬∀ x, P x) : ∃ x, ¬P x := by push_neg at h; exact h",
+          "mathlib_count_raw": 156,
+          "mathlib_count_rounded": 150
+        },
+        {
+          "name": "norm_num",
+          "effect": "Evaluate closed numerical expressions.",
+          "example": "example : (2 : ℤ) + 3 = 5 := by norm_num",
+          "mathlib_count_raw": 211,
+          "mathlib_count_rounded": 200
+        },
+        {
+          "name": "ring",
+          "effect": "Prove polynomial equalities in commutative (semi)rings.",
+          "example": "example (a b : ℤ) : (a + b)^2 = a^2 + 2*a*b + b^2 := by ring",
+          "mathlib_count_raw": 758,
+          "mathlib_count_rounded": 800
+        }
+      ]
+    },
+    {
+      "title": "Goal Structuring",
+      "description": "Reshape the goal or introduce intermediate steps.",
+      "tactics": [
+        {
+          "name": "intro",
+          "effect": "Assume the antecedent of `→` or `∀`, adding it as a hypothesis.",
+          "example": "example : P → P := by intro h; exact h",
+          "mathlib_count_raw": 13546,
+          "mathlib_count_rounded": 14000
+        },
+        {
+          "name": "revert",
+          "effect": "Move a hypothesis back into the goal (inverse of `intro`).",
+          "example": "example (h : P) : P := by revert h; intro h; exact h",
+          "mathlib_count_raw": 255,
+          "mathlib_count_rounded": 250
+        },
+        {
+          "name": "apply",
+          "effect": "Backward reasoning: reduce the goal using a lemma or hypothesis.",
+          "example": "example (f : P → Q) (p : P) : Q := by apply f; exact p",
+          "mathlib_count_raw": 17131,
+          "mathlib_count_rounded": 17000
+        },
+        {
+          "name": "have",
+          "effect": "Introduce a new fact derived from existing ones.",
+          "example": "example (f : P → Q) (p : P) : Q := by have q := f p; exact q",
+          "mathlib_count_raw": 35770,
+          "mathlib_count_rounded": 36000
+        },
+        {
+          "name": "suffices",
+          "effect": "Like `have`, but prove the main goal first.",
+          "example": "example (f : P → Q) (p : P) : Q := by suffices P by exact f this; exact p",
+          "mathlib_count_raw": 3109,
+          "mathlib_count_rounded": 3100
+        },
+        {
+          "name": "refine",
+          "effect": "Like `exact` but allows `?_` placeholders that become new goals.",
+          "example": "example (f : P → Q) (p : P) : Q := by refine f ?_; exact p",
+          "mathlib_count_raw": 23650,
+          "mathlib_count_rounded": 24000
+        },
+        {
+          "name": "calc",
+          "effect": "Chain equalities or inequalities through intermediate steps.",
+          "example": "example : 1 + 1 = 2 := by calc 1 + 1 = 2 := by norm_num",
+          "mathlib_count_raw": 2771,
+          "mathlib_count_rounded": 2800
+        },
+        {
+          "name": "symm",
+          "effect": "Swap sides of an equality or iff.",
+          "example": "example (h : a = b) : b = a := by symm; exact h",
+          "mathlib_count_raw": 440,
+          "mathlib_count_rounded": 450
+        },
+        {
+          "name": "trans",
+          "effect": "Chain two relations through an intermediate value.",
+          "example": "example (h₁ : a = b) (h₂ : b = c) : a = c := by trans b <;> assumption",
+          "mathlib_count_raw": 451,
+          "mathlib_count_rounded": 450
+        }
+      ]
+    },
+    {
+      "title": "Case Analysis and Induction",
+      "description": "Split goals or hypotheses by structure.",
+      "tactics": [
+        {
+          "name": "constructor",
+          "effect": "Split `P ∧ Q` or `P ↔ Q` into subgoals.",
+          "example": "example (p : P) (q : Q) : P ∧ Q := by constructor <;> assumption",
+          "mathlib_count_raw": 3285,
+          "mathlib_count_rounded": 3300
+        },
+        {
+          "name": "left / right",
+          "effect": "Choose which side of `P ∨ Q` to prove.",
+          "example": "example (p : P) : P ∨ Q := by left; exact p",
+          "mathlib_count_raw": 885,
+          "mathlib_count_rounded": 850
+        },
+        {
+          "name": "obtain",
+          "effect": "Destructure a hypothesis: `obtain ⟨a, b⟩ := h`.",
+          "example": "example (h : P ∧ Q) : Q := by obtain ⟨_, q⟩ := h; exact q",
+          "mathlib_count_raw": 16164,
+          "mathlib_count_rounded": 16000
+        },
+        {
+          "name": "cases",
+          "effect": "Case analysis on a hypothesis.",
+          "example": "example (h : P ∨ Q) : Q ∨ P := by cases h with\n  | inl p => right; exact p\n  | inr q => left; exact q",
+          "mathlib_count_raw": 3183,
+          "mathlib_count_rounded": 3200
+        },
+        {
+          "name": "rcases",
+          "effect": "Recursive pattern matching on hypotheses.",
+          "example": "example (h : P ∧ (Q ∨ R)) : True := by rcases h with ⟨_, _ | _⟩ <;> trivial",
+          "mathlib_count_raw": 8083,
+          "mathlib_count_rounded": 8000
+        },
+        {
+          "name": "rintro",
+          "effect": "Combine `intro` and `rcases`.",
+          "example": "example : P ∧ Q → Q ∧ P := by rintro ⟨p, q⟩; exact ⟨q, p⟩",
+          "mathlib_count_raw": 7455,
+          "mathlib_count_rounded": 7000
+        },
+        {
+          "name": "induction",
+          "effect": "Structural induction on an inductive type.",
+          "example": "example (n : ℕ) : 0 + n = n := by induction n with\n  | zero => rfl\n  | succ n ih => rw [Nat.add_succ, ih]",
+          "mathlib_count_raw": 4202,
+          "mathlib_count_rounded": 4200
+        },
+        {
+          "name": "by_contra",
+          "effect": "Assume `¬ goal` and derive `False` (classical).",
+          "example": "example : P ∨ ¬P := by by_contra h; push_neg at h; exact h.2 h.1",
+          "mathlib_count_raw": 975,
+          "mathlib_count_rounded": 1000
+        },
+        {
+          "name": "by_cases",
+          "effect": "Split into `P` and `¬P` branches (classical).",
+          "example": "example : P ∨ ¬P := by by_cases h : P <;> [left; right] <;> exact h",
+          "mathlib_count_raw": 4641,
+          "mathlib_count_rounded": 4600
+        },
+        {
+          "name": "exfalso",
+          "effect": "Change the goal to `False`.",
+          "example": "example (h : False) : P := by exfalso; exact h",
+          "mathlib_count_raw": 135,
+          "mathlib_count_rounded": 150
+        }
+      ]
+    },
+    {
+      "title": "Existentials and Extensionality",
+      "description": "Supply witnesses or prove equality by components.",
+      "tactics": [
+        {
+          "name": "use",
+          "effect": "Supply a witness for an existential goal.",
+          "example": "example : ∃ n : ℕ, n = 2 := by use 2",
+          "mathlib_count_raw": 2522,
+          "mathlib_count_rounded": 2500
+        },
+        {
+          "name": "choose",
+          "effect": "Extract a witness function from `∀ x, ∃ y, P x y`.",
+          "example": "example (h : ∀ x, ∃ y, P x y) : ... := by choose f hf using h",
+          "mathlib_count_raw": 788,
+          "mathlib_count_rounded": 800
+        },
+        {
+          "name": "ext",
+          "effect": "Prove `f = g` by showing `f x = g x` for arbitrary `x`.",
+          "example": "example : (fun x : ℕ => x) = id := by ext x; rfl",
+          "mathlib_count_raw": 10730,
+          "mathlib_count_rounded": 11000
+        }
+      ]
+    },
+    {
+      "title": "Automation",
+      "description": "Higher-level tactics that search for or compute proofs.",
+      "tactics": [
+        {
+          "name": "tauto",
+          "effect": "Close propositional tautologies.",
+          "example": "example (h : P ∧ Q) : Q ∧ P := by tauto",
+          "mathlib_count_raw": 258,
+          "mathlib_count_rounded": 250
+        },
+        {
+          "name": "omega",
+          "effect": "Decision procedure for linear integer/natural arithmetic.",
+          "example": "example (h : n < m) : n + 1 ≤ m := by omega",
+          "mathlib_count_raw": 31,
+          "mathlib_count_rounded": 31
+        },
+        {
+          "name": "linarith",
+          "effect": "Prove goals from linear arithmetic over ordered fields.",
+          "example": "example (h₁ : a ≤ b) (h₂ : b < c) : a < c := by linarith",
+          "mathlib_count_raw": 345,
+          "mathlib_count_rounded": 350
+        },
+        {
+          "name": "grind",
+          "effect": "SMT-style solver handling quantifiers, congruence, and arithmetic.",
+          "example": "example (h : a = b) (h₂ : b = c) : a = c := by grind",
+          "mathlib_count_raw": 1427,
+          "mathlib_count_rounded": 1400
+        },
+        {
+          "name": "apply?",
+          "effect": "Search for a lemma that makes progress and suggest it.",
+          "example": "",
+          "mathlib_count_raw": 0,
+          "mathlib_count_rounded": 0
+        }
+      ]
+    },
+    {
+      "title": "Combinators",
+      "description": "Modify how other tactics are applied.",
+      "tactics": [
+        {
+          "name": "all_goals",
+          "effect": "Run a tactic on every open goal.",
+          "example": "example : P ∧ P := by constructor; all_goals assumption",
+          "mathlib_count_raw": 576,
+          "mathlib_count_rounded": 600
+        },
+        {
+          "name": "repeat",
+          "effect": "Apply a tactic until it fails.",
+          "example": "example : P ∧ P := by constructor; repeat assumption",
+          "mathlib_count_raw": 143,
+          "mathlib_count_rounded": 150
+        },
+        {
+          "name": "try",
+          "effect": "Attempt a tactic; succeed silently if it fails.",
+          "example": "example : P := by try rfl; assumption",
+          "mathlib_count_raw": 163,
+          "mathlib_count_rounded": 150
+        },
+        {
+          "name": "first",
+          "effect": "Try tactics in order: `first | t₁ | t₂`.",
+          "example": "example : P := by first | rfl | assumption",
+          "mathlib_count_raw": 0,
+          "mathlib_count_rounded": 0
+        },
+        {
+          "name": "<;>",
+          "effect": "Apply a tactic to all goals produced by the previous tactic.",
+          "example": "example (p : P) (q : Q) : P ∧ Q := by constructor <;> assumption",
+          "mathlib_count_raw": 0,
+          "mathlib_count_rounded": 0
+        }
+      ]
+    }
+  ]
+}
