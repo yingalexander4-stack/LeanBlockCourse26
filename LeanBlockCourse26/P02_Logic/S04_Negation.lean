@@ -196,7 +196,6 @@ example (P Q : Prop) (p : ¬¬P) (f : P → Q) : ¬¬Q := by
 -- Exercise 1.3
 example (P Q R : Prop) (h : P ∨ Q ∨ R → ¬(P ∧ Q ∧ R)) : (P ∨ Q) ∨ R → ¬((P ∧ Q) ∧ R) := by
   intro hpqr hpqr'
-  obtain ⟨⟨p, q⟩, r⟩ := hpqr'
   apply h
   · cases hpqr with
     | inl hpq =>
@@ -204,7 +203,11 @@ example (P Q R : Prop) (h : P ∨ Q ∨ R → ¬(P ∧ Q ∧ R)) : (P ∨ Q) ∨
       | inl p => left; exact p
       | inr q => right; left; exact q
     | inr r => right; right; exact r
-  · exact ⟨p, q, r⟩
+  · constructor
+    · exact hpqr'.1.1
+    constructor
+    · exact hpqr'.1.2
+    · exact hpqr'.2
 
 example (P Q R : Prop) (h : P ∨ Q ∨ R → ¬(P ∧ Q ∧ R)) : (P ∨ Q) ∨ R → ¬((P ∧ Q) ∧ R) := by
   rintro ((p | q) | r)
