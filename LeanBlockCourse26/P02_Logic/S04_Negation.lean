@@ -147,6 +147,8 @@ theorem push_neg_example (P : Prop) : ¬¬P → P := by
 
 /-
 ## Exercise Block B01
+
+Related: https://www.youtube.com/watch?v=aMxcAaR0oHU
 -/
 
 -- Exercise 1.1a
