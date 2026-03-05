@@ -16,7 +16,8 @@ import Mathlib.Tactic.Tauto
 This module introduces Lean's quantifiers:
 
 - The **universal quantifier** (`∀`) appears naturally as function arguments.
-- The **existential quantifier** (`∃`) asserts that some witness exists, and we can also express unique existence.
+- The **existential quantifier** (`∃`) asserts that some witness exists,
+  and we can also express unique existence.
 - The **order of quantifiers** is significant.
 - We also introduce tactics for handling quantifiers:
   - `choose` to extract witness functions from existential hypotheses,
@@ -36,12 +37,12 @@ example (P : Prop) : P → P := by
   intro p -- Note that here we do *not* need to `intro P` ...
   exact p
 
---- ... which also has this term mode proof.
+-- ... which also has this term mode proof.
 example (P : Prop) : P → P :=
   fun p => p -- ... and neither do we here
 
 -- But internally there are no arguments and a separate output type,
--- everything is just one large type. This is also why in lean everything
+-- everything is just one large type. This is also why in Lean everything
 -- just uses `def` instead of distinguishing between defining variables /
 -- constants and methods / functions. Note that just `Prop → ...` is valid,
 -- but it leaves the actual proposition unnamed, so here we need `P : Prop`.
@@ -61,7 +62,7 @@ example : ∀ (P : Prop), P → P :=
   fun P p => p -- ... and here
 
 /-
-So there is three different kinds of syntax with two being a "convencience
+So there are three different kinds of syntax with two being a "convenience
 layer" on top of the core type notation:
 
 (i)   Type notation `(P : Prop) → P → P` (needs an extra `intro`)
@@ -82,7 +83,7 @@ and how to supply one with the `use` tactic. `choose` is used around
 theorem use_example : ∃ n, n = 2 := by
   use 2
 
--- ... but we can also explictly pass both the element to use
+-- ... but we can also explicitly pass both the element to use
 -- and a proof of the fact that it satisfies the required property
 example : ∃ n, n = 2 := by
   exact ⟨2, rfl⟩
@@ -99,22 +100,23 @@ example (m : ℕ) (h : m = 2) : ∃ n, n = m := by
 example : ∀ (X : Type) (P : X → Prop), (∃! (x : X), P x) → ∃ (x : X), P x := by
   intro X P
   intro h   -- `∃! x, P x`
-  obtain ⟨x, satisfies_property, is_uniquene⟩ := h
+  obtain ⟨x, satisfies_property, is_unique⟩ := h
   use x
-  
+
 example : ∀ (X : Type) (P : X → Prop), (∃! (x : X), P x) → ∃ (x : X), P x := by
   intro X P
   intro h   -- `∃! x, P x`
-  obtain ⟨x, satisfies_property, is_uniquene⟩ := h
+  obtain ⟨x, satisfies_property, is_unique⟩ := h
   exact ⟨x, satisfies_property⟩
-  
+
 example : ∀ (X : Type) (P : X → Prop), (∃! (x : X), P x) → ∃ (x : X), P x := by
-  intro X P ⟨x, satisfies_property, is_uniquene⟩ 
+  intro X P ⟨x, satisfies_property, is_unique⟩
   exact ⟨x, satisfies_property⟩
-  
+
 example : ∀ (X : Type) (P : X → Prop), (∃! (x : X), P x) → ∃ (x : X), P x :=
   fun _ _ ⟨x, satisfies_property, _⟩ => ⟨x, satisfies_property⟩
 
+-- This is `Classical.axiomOfChoice` in Lean (Init.Classical), also `Classical.skolem.mp`
 -- You can "extract" a function from a statement with an ∀∃ statement with `choose`
 theorem choose_function (X : Type) (P : X → X → Prop) (h : ∀ x : X, ∃ y : X, P x y) :
     ∃ (f : X → X), ∀ x : X, P x (f x) := by
@@ -131,6 +133,7 @@ The `ext` tactic proves function extensionality, reducing a goal `f = g`
 to proving `f x = g x` for arbitrary `x`. It is used around 7500 times in mathlib.
 -/
 
+-- This is `funext` in Lean (Init.Core); `funext_iff` (Init.Ext) provides the biconditional
 theorem func_ext (X Y : Type) (f g : X → Y) (h : ∀ x : X, f x = g x) : f = g := by
   ext x
   exact h x
@@ -138,21 +141,21 @@ theorem func_ext (X Y : Type) (f g : X → Y) (h : ∀ x : X, f x = g x) : f = g
 #print func_ext
 
 /-
-## Exercis Block B01
+## Exercise Block B01
 -/
 
 /-
 For some arbitrary given type `α`, the type `p : α → Prop` models if a statement
-hols for a specific instance of `α`, so for example `α` could be `ℕ` and
+holds for a specific instance of `α`, so for example `α` could be `ℕ` and
 `Prop` the statement "a given natural number is even", so `p 0 = True`,
-`p 1 = False`, ... 
+`p 1 = False`, ...
 
-The curly brackets in `{α : Type}` make it implict, so an invocation of the 
+The curly brackets in `{α : Type}` make it implicit, so an invocation of the
 theorem does not need to explicitly pass `α`. In order not to need to define
 it for every exercise, we define it once globally through `variable {α : Type}`.
 -/
 
-variable {α : Type} (p q : α → Prop) 
+variable {α : Type} (p q : α → Prop)
 
 -- Exercise 1.1
 example : (∀ x : α, p x ∧ q x) ↔ ((∀ x : α, p x) ∧ (∀ x : α, q x)) := by
@@ -163,7 +166,7 @@ example : ((∀ x : α, p x) ∨ (∀ x : α, q x)) → (∀ x : α, p x ∨ q x
   sorry
 
 -- Exercise 1.3
-example : (∃ x, p x ∧ q x) → (∃ x, p x) ∧ (∃ x, q x) := 
+example : (∃ x, p x ∧ q x) → (∃ x, p x) ∧ (∃ x, q x) :=
   sorry
 
 -- Exercise 1.4

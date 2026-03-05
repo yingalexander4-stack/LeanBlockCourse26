@@ -435,7 +435,7 @@ example (P Q : Prop) : (P → Q) → (¬P → Q) → Q := by
   by_cases h: P
   · exact pq h
   · exact npq h
-  
+
 -- Exercise 3.3 (Master)
 -- Prove this by combining `by_cases` with `push_neg`
 example (P : Prop) : ¬(P ↔ ¬P) := by
@@ -458,12 +458,6 @@ example (P : Prop) : ¬(P ↔ ¬P) := by
   · left; exact ⟨p, p⟩
   · right; exact ⟨p, p⟩
 
-example (P : Prop) : ¬(P ↔ ¬P) := by
-  push_neg
-  by_cases p : P
-  · left; exact ⟨p, p⟩
-  · right; exact ⟨p, p⟩
-
 -- Exercise 3.4 (Master)
 -- Prove this using as few characters as possible
 example (A B C : Prop) : (A ∧ (¬¬C)) ∨ (¬¬B) ∧ C ↔ (A ∧ C) ∨ B ∧ (¬¬C) := by
@@ -471,7 +465,7 @@ example (A B C : Prop) : (A ∧ (¬¬C)) ∨ (¬¬B) ∧ C ↔ (A ∧ C) ∨ B �
   rfl
 
 example (A B C : Prop) : (A ∧ (¬¬C)) ∨ (¬¬B) ∧ C ↔ (A ∧ C) ∨ B ∧ (¬¬C) := by
-  have (D : Prop) :  ¬¬D ↔ D := by -- this is just `not_not` in lean
+  have (D : Prop) :  ¬¬D ↔ D := by -- this is just `not_not` in Lean
     constructor
     · exact push_neg_example D -- this was the classical part
     · exact fun d nd => nd d   -- this is actually constructive
