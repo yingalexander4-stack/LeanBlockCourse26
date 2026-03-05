@@ -21,11 +21,11 @@ This module introduces the most basic building blocks for constructing proofs in
 - Rewriting with `rw`
 
 Note: Tactic usage counts in this course are approximate, measured against
-Mathlib in February 2025.
+Mathlib 2026-03-04.
 ## Proofs by reflexivity - the `rfl` tactic
 
 The `rfl` tactic proves goals that are true by definition
-and is (explicitly) used around 4,000 times in mathlib and many
+and is (explicitly) used around 14,000 times in mathlib and many
 times more implicitly through `rw`, `exact`, `simp`, ...
 -/
 
@@ -117,7 +117,7 @@ The `exact` tactic allows us to provide a term that precisely matches the goal t
 Unlike assumption, which searches for matches, exact requires us to specify exactly
 which term we want to use, but otherwise has the same effect. The `rfl` tactic
 is essentially `exact rfl`. The tactic `exact?` looks for any term that can be
-used to close the goal. This tactic is used over 40,000 times in mathlib.
+used to close the goal. This tactic is used around 45,000 times in mathlib.
 -/
 
 -- Given a natural number `n` where `10 > n` and `1 < n`, prove that `1 < n`
@@ -228,7 +228,7 @@ example (P Q R : Prop) (p : P) (h₁ : P → Q) (h₂ : Q → R) : R := by
 
 The `intro` tactic is used to prove implications (`→`) by assuming the antecedent.
 When proving `P → Q`, `intro p` creates a hypothesis `p : P` and changes the goal to `Q`.
-It is used around 12,000 times in mathlib.
+It is used around 14,000 times in mathlib.
 
 We already saw this for our proof that the composite of two continuous functions
 is itself continuous. This is whatever implicitly happens in pen-and-paper proofs
@@ -350,7 +350,7 @@ example (P Q R S : Prop) (h₂ : Q → R) : S → P → Q → R := fun _ _ => h�
 ## The `revert` tactic
 
 The `revert` tactic moves a hypothesis from the context back into the goal, essentially
-reversing the effect of `intro`. It is used only around 350 times in mathlib.
+reversing the effect of `intro`. It is used only around 250 times in mathlib.
 -/
 
 -- Note that `hA : A` is exactly the same as `a : A`. It's just a name!
@@ -435,7 +435,7 @@ than the one you need in your goal. There are several ways to handle this:
 3. **Using the `symm` tactic (`symm at h`):**
    The `symm` tactic can update a hypothesis in-place to its symmetric version.
    After doing `symm at h`, the hypothesis `h` will have its arguments swapped.
-   This tactic is basically unused in mathlib.
+   This tactic is used around 450 times in mathlib.
 
 Below are examples illustrating each approach.
 -/
@@ -474,7 +474,7 @@ over which occurrence of a pattern to rewrite. This is particularly useful when:
 - You need to preserve some instances while changing others
 - The default rewrite behavior modifies the wrong occurrence
 
-This tactic is only used around 400 times in mathlib.
+This tactic is only used around 450 times in mathlib.
 -/
 
 example (P Q : Prop) (h : Q ↔ P) (pqr : P ∧ Q ∧ P) : P ∧ Q ∧ Q := by

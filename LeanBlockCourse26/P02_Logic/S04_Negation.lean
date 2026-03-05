@@ -78,7 +78,7 @@ The `contradiction` tactic automatically closes goals with:
 - Obviously conflicting assumptions
 - Mismatched constructors in inductive types
 
-It is used around 400 times in mathlib.
+It is used around 200 times in mathlib.
 -/
 
 example (P : Prop) (h : False) : P := by
@@ -102,7 +102,7 @@ sophisticated logical system is free of contradiction.
 ## The `trivial` tactic
 
 `trivial` tries different simple tactics, in particular `contradiction`,
-to close the current goal. It is used around 500 times in mathlib.
+to close the current goal. It is used around 100 times in mathlib.
 -/
 
 example (P : Prop) (h : P) : P := by
@@ -117,7 +117,7 @@ The `exfalso` tactic converts any goal to `False`, allowing you to:
 - Use any false assumption to prove arbitrary claims
 - Combine with other tactics for manual contradiction handling
 
-It is used around 200 times in mathlib.
+It is used around 150 times in mathlib.
 -/
 
 -- This is `False.elim` in Lean (Init.Prelude)
@@ -276,7 +276,7 @@ The `by_cases` tactic allows classical case analysis on any proposition:
 - Particularly useful with excluded middle (`P ∨ ¬P`) in classical logic
 - Often combined with `push_neg` for handling negations
 
-This tactic is used around 1,200 times in mathlib.
+This tactic is used around 4,600 times in mathlib.
 -/
 
 -- This is the "law of the excluded middle" ...

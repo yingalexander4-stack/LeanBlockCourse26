@@ -76,7 +76,7 @@ layer" on top of the core type notation:
 The existential quantifier (`∃`) asserts the existence of a witness.
 We also show how to extract such a witness using the `choose` tactic,
 and how to supply one with the `use` tactic. `choose` is used around
-800 times in mathlib and `use` around 4,500 times.
+800 times in mathlib and `use` around 2,500 times.
 -/
 
 -- To produce a witness of existence we can use the `use` tactic ...
@@ -130,7 +130,7 @@ theorem choose_function (X : Type) (P : X → X → Prop) (h : ∀ x : X, ∃ y 
 
 Two functions are equal if they return the same output for every input.
 The `ext` tactic proves function extensionality, reducing a goal `f = g`
-to proving `f x = g x` for arbitrary `x`. It is used around 7,500 times in mathlib.
+to proving `f x = g x` for arbitrary `x`. It is used around 11,000 times in mathlib.
 -/
 
 -- This is `funext` in Lean (Init.Core); `funext_iff` (Init.Ext) provides the biconditional

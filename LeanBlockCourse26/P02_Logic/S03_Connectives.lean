@@ -39,7 +39,7 @@ To prove `P ∧ Q`, we need to prove both `P` and `Q`. We can:
 - Use `constructor` as shorthand
 - Use angle bracket notation `⟨p, q⟩`
 
-`constructor` is used around 3,000 times in mathlib while
+`constructor` is used around 3,300 times in mathlib while
 `exact` followed by an `⟨⬝⟩` term is used around 7,000 times.
 -/
 
@@ -121,8 +121,8 @@ To use a hypothesis `h : P ∧ Q`, we can:
 - Use `obtain` for destructuring
 - Use `cases` and `rcases` for basic pattern matching
 
-`obtain` is used around 15,000 times in mathlib, `cases` 3,000 times,
-and `rcases` 7,000 times.
+`obtain` is used around 16,000 times in mathlib, `cases` 3,200 times,
+and `rcases` 8,000 times.
 -/
 
 -- Using `.1` / `.2` notation
@@ -273,7 +273,8 @@ example (P Q R : Prop) (h₁ : P → Q) (h₂ : P → R) : P → (Q ∧ R) :=
 - `try tac` attempts to run `tac` without causing failure if it does not apply.
 - `tac <;> tac'` runs `tac` on the main goal and `tac'` on each produced goal.
 
-They are respectively used around 150, 500, 400, and 7,000 times in mathlib.
+They are respectively used around 150, 600, and 150 times in mathlib
+(`<;>` usage is not tracked separately).
 -/
 
 -- We have seen this example before ...
@@ -527,7 +528,7 @@ example (P Q R : Prop) (h : P ∧ Q ∧ R) : Q := by
 ## The `rintro` tactic
 
 `rintro` allows for more complex pattern matching and is
-used around 7500 times in mathlib.
+used around 7,000 times in mathlib.
 -/
 
 -- Mixing `∧` with `∨` can quickly become very annoying ...
@@ -818,7 +819,7 @@ In the following example, we prove that `B ↔ C` by chaining three equivalences
 - Then we use `A ↔ D`,
 - And finally, from `C ↔ D` we get `D ↔ C` by symmetry.
 
-This lets us conclude `B ↔ C`. It is used around 400 times in mathlib.
+This lets us conclude `B ↔ C`. It is used around 450 times in mathlib.
 -/
 
 example (A B C D : Prop) (h₁ : C ↔ D) (h₂ : A ↔ B) (h₃ : A ↔ D) : B ↔ C := by
