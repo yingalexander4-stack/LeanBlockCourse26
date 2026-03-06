@@ -137,8 +137,6 @@ example {x y : α} : x ∈ Set.singleton y ↔ x = y := by rfl
 lemma mem_pair (t x y : α) : t ∈ ({x, y} : Set α) ↔ t = x ∨ t = y := by rfl
 
 /-
-## Subsets
-
 `S ⊆ T` is syntax for `HasSubset` and is (essentially) defined as
 `∀ x, x ∈ S → x ∈ T`. `S ⊂ T` is syntax for `HasSSubset` and is
 (again essentially) defined as `S ⊆ T ∧ ¬T ⊆ S`.
@@ -150,8 +148,12 @@ lemma subset_def {S T : Set α} : (S ⊆ T) = ∀ x ∈ S, x ∈ T := rfl
 -- This is `Set.ssubset_def` in mathlib
 lemma ssubset_def {S T : Set α} : (S ⊂ T) = (S ⊆ T ∧ ¬T ⊆ S) := rfl
 
--- **Set Reflexivity**
--- Every set is a subset of itself – `Set.Subset.rfl` in mathlib
+/-
+## Set Reflexivity
+
+Every set is a subset of itself — `Set.Subset.rfl` in mathlib.
+-/
+
 lemma Subset.rfl (S : Set α) : S ⊆ S := by rfl
 
 example (S : Set α) : S ⊆ S := by
@@ -159,8 +161,12 @@ example (S : Set α) : S ⊆ S := by
   intro x h
   exact h
 
--- **Set Transitivity**
--- If `S ⊆ T` and `T ⊆ R` then `S ⊆ R`– `Set.Subset.trans` in mathlib
+/-
+## Set Transitivity
+
+If `S ⊆ T` and `T ⊆ R` then `S ⊆ R` — `Set.Subset.trans` in mathlib.
+-/
+
 lemma Subset.trans {S T R : Set α} (h₁ : S ⊆ T) (h₂ : T ⊆ R) : S ⊆ R := by
   rw [subset_def] at * -- again optional
   intro x (xs : x ∈ S)
@@ -176,12 +182,16 @@ example {S T R : Set α} (h₁ : S ⊆ T) (h₂ : T ⊆ R) : S ⊆ R := by
 
 example {S T R : Set α} (h₁ : S ⊆ T) (h₂ : T ⊆ R) : S ⊆ R := fun _ xs => h₂ (h₁ xs)
 
--- **Empty Set**
--- The empty set `∅` is the set of elements of type `α` for which `False` holds –
--- `Set.empty_def` in mathlib
+/-
+## Empty Set
+
+The empty set `∅` is the set of elements of type `α` for which `False` holds
+(`Set.empty_def` in mathlib), and is a subset of every set (`Set.empty_subset`).
+-/
+
 theorem empty_def : ∅ = {x : α | False} := rfl
 
--- The empty set is a subset of every set – `Set.empty_subset` in mathlib
+-- The empty set is a subset of every set — `Set.empty_subset` in mathlib
 lemma empty_subset (S : Set α) : ∅ ⊆ S := by
   rw [empty_def, subset_def]
   intro x h
