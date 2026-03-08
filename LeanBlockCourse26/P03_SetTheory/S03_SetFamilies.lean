@@ -27,19 +27,23 @@ denote the intersection of a set family `S`. An element is in `⋂₀ S`
 if and only if it is in every set of the family `S`.
 -/
 
-lemma mem_sInter {x : α} {S : Set (Set α)} : x ∈ ⋂₀ S ↔ ∀ t ∈ S, x ∈ t := by rfl
+example {x : α} {S : Set (Set α)} : x ∈ ⋂₀ S ↔ ∀ t ∈ S, x ∈ t := by rfl
+
+#check Set.mem_sInter
 
 example (S : Set α) (F : Set (Set α)) (h₁ : S ∈ F) : ⋂₀ F ⊆ S := by
   intro x h
-  rw [mem_sInter] at h
+  rw [Set.mem_sInter] at h
   have := h S h₁
   assumption
 
 example (S : Set α) (F : Set (Set α)) (h₁ : S ∈ F) : ⋂₀ F ⊆ S := fun _ h => h S h₁
 
+#check Set.sInter_subset_of_mem
+
 example (F G : Set (Set α)) (h₁ : F ⊆ G) : ⋂₀ G ⊆ ⋂₀ F := by
   intro x h₂
-  rw [mem_sInter] at *
+  rw [Set.mem_sInter] at *
   intro t h₃
   have : t ∈ G := h₁ h₃
   have : x ∈ t := h₂ t this
@@ -54,24 +58,28 @@ We can also use `⋃₀ S` to denote the union of a set family `S`.
 An element is in `⋃₀ S` iff it is in some set of the family `S`.
 -/
 
-lemma mem_sUnion {x : α} {S : Set (Set α)} : x ∈ ⋃₀ S ↔ ∃ t ∈ S, x ∈ t := by rfl
+example {x : α} {S : Set (Set α)} : x ∈ ⋃₀ S ↔ ∃ t ∈ S, x ∈ t := by rfl
+
+#check Set.mem_sUnion
 
 example (S : Set α) (F : Set (Set α)) (h₁ : S ∈ F) : S ⊆ ⋃₀ F := by
   intro x xs
-  rw [mem_sUnion]
+  rw [Set.mem_sUnion]
   use S
 
 example (S : Set α) (F : Set (Set α)) (h₁ : S ∈ F) : S ⊆ ⋃₀ F := fun _ xs => ⟨S, h₁, xs⟩
 
+#check Set.subset_sUnion_of_mem
+
 example (F G : Set (Set α)) (h₁ : F ⊆ G) : ⋃₀ F ⊆ ⋃₀ G := by
   intro x h
-  rw [mem_sUnion] at *
+  rw [Set.mem_sUnion] at *
   obtain ⟨t, tf, xt⟩ := h
   have tg := h₁ tf
-  use t 
+  use t
 
 example (F G : Set (Set α)) (h₁ : F ⊆ G) : ⋃₀ F ⊆ ⋃₀ G :=
-  fun _ ⟨t, tf, xt⟩ => ⟨t, h₁ tf, xt⟩ 
+  fun _ ⟨t, tf, xt⟩ => ⟨t, h₁ tf, xt⟩
 
 /-
 ## Exercise Block B01
@@ -174,14 +182,14 @@ example (F : Set (Set α)) : (⋃₀ F)ᶜ = ⋂₀ {t | tᶜ ∈ F} := by
   ext x
   constructor
   · intro h₁ t h₂
-    rw [Set.mem_compl_iff, mem_sUnion] at h₁
+    rw [Set.mem_compl_iff, Set.mem_sUnion] at h₁
     push_neg at h₁
     have h₃ := h₁ tᶜ h₂
     rw [Set.mem_compl_iff] at h₃
     push_neg at h₃
     exact h₃
   · intro h₁
-    rw [Set.mem_compl_iff, mem_sUnion]
+    rw [Set.mem_compl_iff, Set.mem_sUnion]
     push_neg
     intro t h₂
     exact (h₁ tᶜ) (by rw [Set.mem_setOf, compl_compl]; exact h₂)
@@ -191,14 +199,14 @@ example (F : Set (Set α)) : (⋂₀ F)ᶜ = ⋃₀ {t | tᶜ ∈ F} := by
   ext x
   constructor
   · intro h₁
-    rw [Set.mem_compl_iff, mem_sInter] at h₁
+    rw [Set.mem_compl_iff, Set.mem_sInter] at h₁
     push_neg at h₁
     obtain ⟨t, ht⟩ := h₁
     use tᶜ
     rw [Set.mem_setOf, compl_compl, Set.mem_compl_iff]
     exact ht
   · intro ⟨u, hu⟩
-    rw [Set.mem_compl_iff, mem_sInter]
+    rw [Set.mem_compl_iff, Set.mem_sInter]
     push_neg
     use uᶜ
     constructor
@@ -225,7 +233,7 @@ example (F G : Set (Set α)) : (⋃₀ F) ∩ (⋃₀ G)ᶜ ⊆ ⋃₀ (F ∩ G�
     · exact ht₁
     · rw [Set.mem_compl_iff]
       by_contra h₂
-      rw [Set.mem_compl_iff, mem_sUnion] at h₁
+      rw [Set.mem_compl_iff, Set.mem_sUnion] at h₁
       push_neg at h₁
       exact h₁ t h₂ ht₂
   · exact ht₂
@@ -246,7 +254,7 @@ example (F G : Set (Set α)) (h₁ : ⋃₀ (F ∩ Gᶜ) ⊆ (⋃₀ F) ∩ (⋃
 -- Exercise 1.15
 example (F G : Set (Set α)) : (⋃₀ F) ∩ (⋂₀ G)ᶜ ⊆ ⋃₀ {t | ∃ u ∈ F, ∃ v ∈ G, t = u ∩ vᶜ} := by
   intro x ⟨⟨u, hu⟩, h₁⟩
-  rw [Set.mem_compl_iff, mem_sInter] at h₁
+  rw [Set.mem_compl_iff, Set.mem_sInter] at h₁
   push_neg at h₁
   obtain ⟨v, hv⟩ := h₁
   use u ∩ vᶜ
