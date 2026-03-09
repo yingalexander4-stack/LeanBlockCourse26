@@ -1,5 +1,5 @@
 ---
-title: "Can you prove a proof is axiom-free?"
+title: "Axiom provenance"
 parent: Addendum
 nav_order: 0
 ---
