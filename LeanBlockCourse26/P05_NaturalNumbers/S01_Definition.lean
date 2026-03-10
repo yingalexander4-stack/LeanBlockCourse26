@@ -3,6 +3,7 @@ This part is mostly inspired by the `Natural Number Game`:
 https://adam.math.hhu.de/#/g/leanprover-community/nng4
 -/
 
+import Mathlib.Data.Set.Basic
 import Mathlib.Tactic.Basic
 import Mathlib.Tactic.Cases
 import Mathlib.Tactic.Use
@@ -126,9 +127,9 @@ constructor):
 
 8. For every natural number n, S(n) = 0 is false. That is, there is
    no natural number whose successor is 0.
-   ⟩ ...
+   ⟩ Likewise taken care of by the Lean kernel giving us `MyNat.noConfusion` ✔
 
-9. If K is a set such that: (i) 0 is in K, and (ii)for every natural
+9. If K is a set such that: (i) 0 is in K, and (ii) for every natural
    number n, n being in K implies that S(n) is in K, then K contains
    every natural number.
    ⟩ ...
@@ -229,19 +230,48 @@ We really have three options:
 -- ... which is in fact just a proof of injectivity.
 example {m n : MyNat} (h : MyNat.succ n = MyNat.succ m) : n = m := MyNat.noConfusion h id
 
+#print MyNat.noConfusion
+
 
 /-
 ## Exercise Block B02
 -/
 
+-- Exercise 2.1
+-- **Eigth peano axiom**
+theorem eight_peano_axiom_contradiction (n : MyNat) : 0 ≠ succ n := by
+  intro s
+  contradiction
 
-theorem eight_peano_axiom (n : MyNat) : 0 ≠ succ n := by
+#print eight_peano_axiom_contradiction 
+
+theorem eight_peano_axiom_trivial (n : MyNat) : 0 ≠ succ n := by
+  intro s
+  trivial
+
+#print eight_peano_axiom_trivial 
+
+theorem eight_peano_axiom (n : MyNat) : 0 ≠ succ n := MyNat.noConfusion
+
+-- Exercise 2.2
+theorem zero_ne_one_rw : (0 : MyNat) ≠ 1 := by
+  rw [one_eq_succ_zero]
+  exact eight_peano_axiom 0
+
+theorem zero_ne_one : (0 : MyNat) ≠ 1 := eight_peano_axiom 0
+
+theorem one_ne_zero : (1 : MyNat) ≠ 0 := zero_ne_one.symm
+
+-- Exercise 2.3
+-- **Eigth peano axiom**
+
+theorem ninth_peano_axiom (P : MyNat → Prop) (h₁ : P 0) (h₂ : ∀ n, (P n → P n.succ)) :
+    ∀ n, P n := by
   sorry
 
-theorem zero_ne_one : (0 : MyNat) ≠ 1 := by
-  sorry
-
-theorem one_ne_zero : (1 : MyNat) ≠ 0 := 
+theorem ninth_peano_axiom_set' (K : Set MyNat) (h₁ : 0 ∈ K) (h₂ : ∀ n, n ∈ K → n.succ ∈ K) :
+    K = Set.univ := by
   sorry
 
 end MyNat
+
