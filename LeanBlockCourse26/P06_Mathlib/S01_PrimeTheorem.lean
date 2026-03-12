@@ -51,7 +51,7 @@ To do this, you should:
 **When is a `Nat` `Prime`?**
 
 `Mathlib.Data.Nat.Prime.Defs` tells us that `def Prime (p : ℕ) := Irreducible`,
-which takes us to `Mathlib.Algebra.Groups.Irreducible.Defs`... but really you
+which takes us to `Mathlib.Algebra.Group.Irreducible.Defs`... but really you
 probably just want to use one of the many more intuitive definitions and
 properties stated in `Mathlib.Data.Nat.Prime.Defs`, for example:
 
@@ -76,13 +76,13 @@ For the notion of when a `Set` is `Finite` or `Infinite`, one starting
 point in mathlib is `Mathlib.Data.Finite.Defs`. There we see that ...
 
 ```
-Infinite (s : Set α) : Prop := ¬s.Finite`
+Infinite (s : Set α) : Prop := ¬s.Finite
 ```
 
 ... also captured by ...
 
 ```
-theorem not_infinite {s : Set α} : ¬s.Infinite ↔ s.Finite := sorry
+theorem not_infinite {s : Set α} : ¬s.Infinite ↔ s.Finite := ...
 ```
 
 ... and `Finite` itself is an inductively defined type class ...
@@ -104,7 +104,7 @@ structure Fin (n : Nat) where
 
 ### ... and how does it differ from `Finset`?
 
-In `Mathlib.Data.Finset.Def` we can find the  
+In `Mathlib.Data.Finset.Def` we can find the
 
 ```
 structure Finset (α : Type*) where
