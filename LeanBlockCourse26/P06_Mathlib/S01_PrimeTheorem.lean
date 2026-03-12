@@ -214,7 +214,31 @@ theorem infinitude_of_primes_tfae : [
 
       use hfinj
 
-  tfae_have 2 → 3 := by sorry -- Arthur
+  tfae_have 2 → 3 := by -- Arthur
+   intro h S
+   let s := Set.infinite_univ_iff.2 h
+   let P := @Set.univ { p // Nat.Prime p }
+   by_contra a
+   push_neg at a
+   let PN := P.image Subtype.val
+   have PS : PN ⊆ S := by rw [Set.subset_def]
+                          intro k b
+                          by_contra l
+                          have x : k ∉ S := by exact Finset.notMem_mono (fun ⦃a⦄ a_1 ↦ a_1) l
+                          have knp := a k x
+                          have kp : Nat.Prime k := by unfold PN at b
+                                                      unfold P at b
+                                                      simp at b
+                                                      exact b
+                          contradiction
+   have PNI : PN.Infinite := by unfold PN
+                                unfold P
+                                simp
+                                exact Set.infinite_coe_iff.mp h
+   have SF : (S : Set ℕ).Finite := by exact Finset.finite_toSet S
+   obtain ⟨a , inn, nis⟩ := Set.Infinite.exists_notMem_finite PNI SF
+   let is := PS inn
+   contradiction
 
   tfae_have 1 → 2 := by -- Onat
    intro h
