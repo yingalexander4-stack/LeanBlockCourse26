@@ -4,6 +4,7 @@ import Mathlib.Algebra.Order.BigOperators.Ring.Finset
 import Mathlib.Data.Fintype.Basic
 import Mathlib.Data.Finset.Basic
 import Mathlib.Data.Finset.Card
+import Mathlib.Combinatorics.Enumerative.DoubleCounting
 
 /-
 ## Handshaking lemma: the sum of the degrees in a graph is twice the number of its edges
@@ -120,8 +121,10 @@ arbitrary graph, making the lemma generally valid in classical logic.
 -/ 
 
 -- ... access to sums over `Fintype`s or `Finset`s so we can state ...
-lemma handshaking : ∑ v, d(v) = 2 * #E := by
-  sorry
+example : ∑ v, G.degree v = 2 * G.edgeFinset.card := by sorry
+
+-- ... or using some nice notation just
+example : ∑ v, d(v) = 2 * #E := by sorry
 
 /-
 What we should *not* try to do is to define a finite vertex set `V` and
@@ -179,14 +182,39 @@ The main ingredients are:
 
 1. Find the double counting argument in mathlib! It should be some statement
    taking exactly `A : Type*`, `B : Type*`, and `R : A → B → Prop` as an input.
+   In `Mathlib.Combinatorics.Enumerate.DoubleCounting`, we find the definitions
+   `t.bipartiteAbove r a := {b ∈ t | r a b}` and and `s.bipartiteBelow r b := {a ∈ s | r a b}`
+   and many different variants of double counting arguments based on. Probably
+   the most sensible one for us is `sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow`.
+
+   ```
+   theorem sum_card_bipartiteAbove_eq_sum_card_bipartiteBelow [∀ a b, Decidable (r a b)] :
+       (∑ a ∈ s, #(t.bipartiteAbove r a)) = ∑ b ∈ t, #(s.bipartiteBelow r b) := sorry
+   ```
 
 2. Find `∑ s ∈ S, C = C * #S` for any finite set `S` and constant `C`.
+  * `Finset.sum_const : ∑ _ ∈ S, C = #s * C`
+  * `Finset.card_eq_sum_ones : #S = ∑ _ ∈ s, 1`
+  * `Finset.mul_sum (f : _ → _) : C * ∑ s ∈ S, f s = ∑ s ∈ S, C * f s`
 
 3. Find `#{ v ∈ V | v ∈ e } = 2` for any graph `G` and one if its edges `e`.
+  * You can coerce the slightly annoying edge type `Sym2 V` of `SimpleGraph V`
+    to a finset through `G.toFinset (e : Sym2 V) : Finset V := ...`
+  * `G.card_toFinset_mem_edgeFinset := (e : Sym2 V).toFinset.card = 2 `
+    but note that this requires `[DecidableEq V]`!
 
 4. Find `G.degree v = #{ e ∈ E | v ∈ e }` for any graph `G` and one if its vertices `v`.
+  * `G.incidenceSet (v : V) : { e ∈ G.edgeSet | v ∈ e }`
+  * `G.incidenceFinset : (G.incidenceSet v).toFinset` but requires `[DecidableEq V]`
+  * `G.card_incidenceSet_eq_degree : # ↑(G.incidenceSet v) = d(v)`
+  * `G.card_incidenceFinset_eq_degree : # (G.incidenceFinset v) = d(v)`
 -/
+
+
 
 /-
 # Phase 5: Implement your fleshed out proof as closely as possible in lean
 -/
+
+lemma handshaking : ∑ v, d(v) = 2 * #E := by
+  sorry
