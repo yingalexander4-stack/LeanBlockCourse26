@@ -231,7 +231,19 @@ theorem infinitude_of_primes_tfae : [
 
   tfae_have 3 → 4 := by sorry -- Alexandra
 
-  tfae_have 5 → 4 := by sorry -- Sammy
+  tfae_have 5 → 4 := by -- Sammy
+    intro h S _
+    rcases Finset.eq_empty_or_nonempty S with SE|SNE
+    · use 2
+      constructor
+      · simp[SE]
+      · exact Nat.prime_two
+    · obtain ⟨maxS,h₂⟩ := Finset.max_of_nonempty SNE
+      obtain⟨p,h₃,h₄⟩ := h maxS
+      use p
+      constructor
+      · have h₅ := GT.gt.lt h₃; exact Finset.notMem_of_max_lt h₅ h₂
+      · exact h₄
 
   tfae_have 6 → 3 := by
    intro h
