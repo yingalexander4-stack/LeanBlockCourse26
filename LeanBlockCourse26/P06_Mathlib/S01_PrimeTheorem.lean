@@ -253,7 +253,9 @@ theorem infinitude_of_primes_tfae : [
 
   tfae_have 3 → 2 := by sorry -- Leonie
 
-  tfae_have 3 → 4 := by sorry -- Alexandra
+  tfae_have 3 → 4 := by -- Alexandra
+   intro a b c
+   exact a b
 
   tfae_have 5 → 4 := by -- Sammy
     intro h S _
