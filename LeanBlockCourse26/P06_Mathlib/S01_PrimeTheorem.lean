@@ -42,7 +42,7 @@ To do this, you should:
 
 (III) Use `exact?` or `simp?` whenever you think you have a nuclear expression that *should*
       be in mathlib to try and find it. Often it is advisable to extract the statement into
-      separate `example` for this. You can also manually search the files, guess the 
+      separate `example` for this. You can also manually search the files, guess the
       expected theorem name based on the [mathlib naming convention](https://leanprover-community.github.io/contribute/naming.html),
       use [leansearch.net](https://leansearch.net) or [Loogle](https://loogle.lean-lang.org),
       talk to people on [Is there code for X? on zulip](https://leanprover.zulipchat.com/#narrow/channel/217875-Is-there-code-for-X.3F/topic/Complexity.20theory/with/578655619)
@@ -194,10 +194,12 @@ theorem infinitude_of_primes_tfae : [
   tfae_have 3 → 4 := by sorry -- Alexandra
 
   tfae_have 5 → 4 := by sorry -- Sammy
-  
+
   tfae_have 6 → 3 := by sorry -- Anna
 
-  tfae_have 6 → 1 := by sorry -- Alexander
+  tfae_have 6 → 1 := by -- Alexander
+   rintro ⟨P, hP, hprime⟩
+   exact Set.infinite_of_injective_forall_mem hP (fun x => hprime x)
 
   tfae_have 4 → 1 := by sorry -- Cara
 
@@ -222,4 +224,3 @@ theorem infinitude_of_primes_tfae : [
   tfae_have 9 → 2 := by sorry
 
   tfae_finish
-
