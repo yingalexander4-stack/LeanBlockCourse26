@@ -187,7 +187,12 @@ theorem infinitude_of_primes_tfae : [
 
   tfae_have 1 → 2 := by sorry -- Onat
 
-  tfae_have 1 → 6 := by sorry -- Bohdan
+  tfae_have 1 → 6 := by -- Bohdan
+    intro h
+    use Nat.nth Nat.Prime
+    use Nat.nth_injective h
+    intro k
+    exact Nat.prime_nth_prime k
 
   tfae_have 3 → 2 := by sorry -- Leonie
 
@@ -234,9 +239,9 @@ theorem infinitude_of_primes_tfae : [
 
   tfae_have 3 → 5 := by sorry -- Daniel
 
-  tfae_have 7 → 1 := by sorry -- Bohdan / Kimia
+  tfae_have 7 → 1 := fun _ => Nat.infinite_setOf_prime -- Bohdan / Kimia
 
-  tfae_have 1 → 7 := by sorry -- Bohdan / Kimia
+  tfae_have 1 → 7 := Nat.nth_strictMono -- Bohdan / Kimia
 
   tfae_have 7 → 3 := by sorry -- Kimia
 
